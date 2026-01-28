@@ -2,22 +2,29 @@ import openmeteo_requests
 from retry_requests import retry
 
 import storedata
-    
+
 
 def weather_data_from_api():
-    
+
     # Setup the Open-Meteo API client with cache and retry on error
-    retry_session = retry(cache_session, retries = 5, backoff_factor = 0.2)
-    openmeteo = openmeteo_requests.Client(session = retry_session)
+    retry_session = retry(cache_session, retries=5, backoff_factor=0.2)
+    openmeteo = openmeteo_requests.Client(session=retry_session)
 
     url = "https://api.open-meteo.com/v1/forecast"
     params = {
         "latitude": 51.4888,
         "longitude": -3.177,
-        "hourly": ["temperature_2m", "precipitation_probability", "precipitation", "visibility", "wind_speed_10m", "relative_humidity_2m"],
+        "hourly": [
+            "temperature_2m",
+            "precipitation_probability",
+            "precipitation",
+            "visibility",
+            "wind_speed_10m",
+            "relative_humidity_2m",
+        ],
         "timezone": "Europe/London",
         "wind_speed_unit": "mph",
-        "forecast_days": 1
+        "forecast_days": 1,
     }
     return openmeteo.weather_api(url, params=params)
 
@@ -31,29 +38,39 @@ def format_hourly_data(data):
     hourly_visibility = hourly.Variables(3).ValuesAsNumpy().tolist()
     hourly_wind_speed_10m = hourly.Variables(4).ValuesAsNumpy().tolist()
     hourly_relative_humidity_2m = hourly.Variables(5).ValuesAsNumpy().tolist()
-    
+
     json_data = {}
-    variables = [["temperature", hourly_temperature_2m], ["precipitation_probability", hourly_precipitation_probability], ["precipitation", hourly_precipitation], ["visibility", hourly_visibility], ["wind_speed", hourly_wind_speed_10m], ["relative_humidity", hourly_relative_humidity_2m]]
+    variables = [
+        ["temperature", hourly_temperature_2m],
+        ["precipitation_probability", hourly_precipitation_probability],
+        ["precipitation", hourly_precipitation],
+        ["visibility", hourly_visibility],
+        ["wind_speed", hourly_wind_speed_10m],
+        ["relative_humidity", hourly_relative_humidity_2m],
+    ]
 
     for hour in range(len(hourly_temperature_2m)):
         hourly_data = {}
         for variable in variables:
             hourly_data[variable[0]] = variable[1][hour]
-        
+
         json_data[f"hour_{hour}"] = hourly_data
-    
+
     return json_data
 
 
 def retrieve_weather_data():
-    
+
     responses = weather_data_from_api()
     json_data = {}
     response = responses[0]
-    
-    json_data["coordinates"] = {"latitude": response.Latitude(), "longitude": response.Longitude()}
+
+    json_data["coordinates"] = {
+        "latitude": response.Latitude(),
+        "longitude": response.Longitude(),
+    }
     json_data["elevation"] = response.Elevation()
-    json_data["timezone"] = response.Timezone().decode('utf-8')
+    json_data["timezone"] = response.Timezone().decode("utf-8")
 
     json_data["hourly_data"] = format_hourly_data(response)
 

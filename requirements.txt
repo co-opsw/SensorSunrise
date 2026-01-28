@@ -8,5 +8,8 @@ openmeteo-requests
 # API Related
 retry-requests
 
+# LCD Screen
+smbus
+
 # linting and formatting
 black

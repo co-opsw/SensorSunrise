@@ -85,5 +85,6 @@ def retrieve_weather_data():
     storedata.store_json_data(json_data, "weather_data")
 
 
-if __name__ == "__main__":
-    retrieve_weather_data()
+# Uncomment if working on individual development of this file
+# if __name__ == "__main__":
+# retrieve_weather_data()

@@ -4,12 +4,12 @@
 
 Build the image:
 ```bash
-docker build -t my-python-project .
+docker build -t sensorsunrise .
 ```
 
 Run and develop:
 ```bash
-docker run -it -v $(pwd):/app my-python-project
+docker run -it -v $(pwd):/app sensorsunrise
 ```
 
 Inside the container, run your Python scripts.

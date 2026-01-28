@@ -20,4 +20,4 @@ lint: build
 	docker run -it -v $(PWD):/app $(IMAGE_NAME) black src/
 
 clean:
-	docker rmi $(IMAGE_NAME)
+	docker rmi -f $(IMAGE_NAME)

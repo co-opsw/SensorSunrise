@@ -1,3 +1,12 @@
+# MISC
+numpy
+python-dotenv
+
+# API's
 openmeteo-requests
+
+# API Related
 retry-requests
+
+# linting and formatting
 black

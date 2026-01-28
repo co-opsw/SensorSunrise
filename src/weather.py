@@ -1,13 +1,20 @@
 import openmeteo_requests
 from retry_requests import retry
 
+import numpy
+
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
 import storedata
 
 
 def weather_data_from_api():
 
-    # Setup the Open-Meteo API client with cache and retry on error
-    retry_session = retry(cache_session, retries=5, backoff_factor=0.2)
+    # Setup the Open-Meteo API client with retry on error
+    retry_session = retry(retries=5, backoff_factor=0.2)
     openmeteo = openmeteo_requests.Client(session=retry_session)
 
     url = "https://api.open-meteo.com/v1/forecast"
@@ -22,7 +29,7 @@ def weather_data_from_api():
             "wind_speed_10m",
             "relative_humidity_2m",
         ],
-        "timezone": "Europe/London",
+        "timezone": os.getenv("LOCATION"),
         "wind_speed_unit": "mph",
         "forecast_days": 1,
     }
@@ -76,3 +83,7 @@ def retrieve_weather_data():
 
     # How to store data
     storedata.store_json_data(json_data, "weather_data")
+
+
+if __name__ == "__main__":
+    retrieve_weather_data()

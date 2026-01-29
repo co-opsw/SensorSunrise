@@ -1,6 +1,7 @@
 # MISC
 numpy
 python-dotenv
+loguru
 
 # API's
 openmeteo-requests

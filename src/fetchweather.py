@@ -9,6 +9,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 import storedata
+import loggersetup
+logger = loggersetup.logger_setup("fetchweather.log")
 
 
 def weather_data_from_api():
@@ -67,6 +69,8 @@ def format_hourly_data(data):
 
 
 def retrieve_weather_data():
+    
+    logger.info("Fetching weather data...")
 
     responses = weather_data_from_api()
     json_data = {}

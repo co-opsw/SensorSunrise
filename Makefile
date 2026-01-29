@@ -14,7 +14,7 @@ build:
 	docker build -t $(IMAGE_NAME) .
 
 run: build
-	docker run -it -v $(PWD):/app $(IMAGE_NAME)
+	docker run -it --device=/dev/i2c-1 -v $(PWD):/app $(IMAGE_NAME)
 
 lint: build
 	docker run -it -v $(PWD):/app $(IMAGE_NAME) black src/

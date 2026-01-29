@@ -1,12 +1,15 @@
 import smbus
 from time import sleep
 from datetime import datetime
-from LCD1602 import CharLCD1602
 
+import loggersetup
+logger = loggersetup.logger_setup("fetchweather.log")
+
+from LCD1602 import CharLCD1602
 lcd_screen = CharLCD1602()
 
 
-def loop(message):
+def loop_x(message, x, y):
     lcd_screen.init_lcd()
     count = 0
 

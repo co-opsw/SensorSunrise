@@ -1,12 +1,16 @@
 # MISC
 numpy
 python-dotenv
+loguru
 
 # API's
 openmeteo-requests
 
 # API Related
 retry-requests
+
+# LCD Screen
+smbus
 
 # linting and formatting
 black

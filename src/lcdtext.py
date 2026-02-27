@@ -2,10 +2,6 @@ import smbus
 from time import sleep
 from datetime import datetime
 
-import loggersetup
-
-logger = loggersetup.logger_setup("fetchweather.log")
-
 from LCD1602 import CharLCD1602
 
 lcd_screen = CharLCD1602()
@@ -17,7 +13,7 @@ def loop_x(message, x, y):
 
     while True:
         lcd_screen.clear()
-        lcd_screen.write(count, 0, message)
+        lcd_screen.write(x, y, message)
 
         sleep(1)
 
@@ -27,8 +23,7 @@ def loop_x(message, x, y):
             count += 1
 
 
-def destroy():
-    print("Turning off LCD Screen...")
+def clear():
     lcd_screen.clear()
 
 
@@ -36,7 +31,7 @@ if __name__ == "__main__":
     print("LCD Screen is starting up...")
 
     try:
-        loop()
+        loop_x("hello", 0, 0)
 
     except KeyboardInterrupt:
         destroy()

@@ -28,6 +28,7 @@ def weather_data_from_api():
             "visibility",
             "wind_speed_10m",
             "relative_humidity_2m",
+            "weather_code",
         ],
         "timezone": os.getenv("LOCATION"),
         "wind_speed_unit": "mph",
@@ -45,6 +46,7 @@ def format_hourly_data(data):
     hourly_visibility = hourly.Variables(3).ValuesAsNumpy().tolist()
     hourly_wind_speed_10m = hourly.Variables(4).ValuesAsNumpy().tolist()
     hourly_relative_humidity_2m = hourly.Variables(5).ValuesAsNumpy().tolist()
+    hourly_weather_code = hourly.Variables(6).ValuesAsNumpy().tolist()
 
     json_data = {}
     variables = [
@@ -54,6 +56,7 @@ def format_hourly_data(data):
         ["visibility", hourly_visibility],
         ["wind_speed", hourly_wind_speed_10m],
         ["relative_humidity", hourly_relative_humidity_2m],
+        ["weather_code", hourly_weather_code],
     ]
 
     for hour in range(len(hourly_temperature_2m)):
@@ -85,5 +88,6 @@ def retrieve_weather_data():
     storedata.store_json_data(json_data, "weather_data")
 
 
-if __name__ == "__main__":
-    retrieve_weather_data()
+# Uncomment if working on individual development of this file
+# if __name__ == "__main__":
+# retrieve_weather_data()
